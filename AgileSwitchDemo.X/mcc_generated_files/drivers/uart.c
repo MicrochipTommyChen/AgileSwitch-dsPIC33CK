@@ -1,26 +1,9 @@
 /**
-  @Generated PIC24 / dsPIC33 / PIC32MM MCUs Header File
-
-  @Company:
-    Microchip Technology Inc.
-
-  @File Name:
-    mcc.h
-
-  @Summary:
-    This is the mcc.h file generated using PIC24 / dsPIC33 / PIC32MM MCUs
-
-  @Description:
-    This file will be removed in future MCC releases. Use system.h instead.
-    Generation Information :
-        Product Revision  :  PIC24 / dsPIC33 / PIC32MM MCUs - 1.169.0
-        Device            :  dsPIC33CK256MP508
-    The generated drivers are tested against the following:
-        Compiler          :  XC16 v1.50
-        MPLAB             :  MPLAB X v5.40
-*/
-
-/*
+\file
+\addtogroup doc_driver_uart_code
+\brief This file contains the function names of the operations that can be carried out by the UART Foundation Services .
+\copyright (c) 2020 Microchip Technology Inc. and its subsidiaries.
+\page License
     (c) 2020 Microchip Technology Inc. and its subsidiaries. You may use this
     software and any derivatives exclusively with Microchip products.
 
@@ -40,34 +23,19 @@
 
     MICROCHIP PROVIDES THIS SOFTWARE CONDITIONALLY UPON YOUR ACCEPTANCE OF THESE
     TERMS.
-*/
+**/
 
-#ifndef MCC_H
-#define	MCC_H
-#include <xc.h>
-#include "system.h"
-#include "clock.h"
-#include "pin_manager.h"
-#include <stdint.h>
-#include <stdbool.h>
-#include "system_types.h"
-#include "reset.h"
+/**
+  Section: Included Files
+ */
 
-#include "adc1.h"
-#include "sccp1_capture.h"
-#include "reset.h"
-#include "watchdog.h"
-#include "sccp2_capture.h"
-#include "uart1.h"
-#include "interrupt_manager.h"
-#include "traps.h"
-#include "tmr1.h"
-#include "delay.h"
-#include "pwm.h"
+#include "uart.h"   
 
-#warning "This file will be removed in future MCC releases. Use system.h instead."
 
-#endif	/* MCC_H */
+const uart_functions_t uart[] = {   
+    {UART1_Read, UART1_Write, UART1_IsTxReady, UART1_IsRxReady, UART1_SetTxInterruptHandler, UART1_SetRxInterruptHandler, UART1_IsTxDone, UART1_Initialize }
+};
+
 /**
  End of File
-*/
+ */

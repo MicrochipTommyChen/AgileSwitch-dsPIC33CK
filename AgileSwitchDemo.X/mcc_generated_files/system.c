@@ -124,22 +124,148 @@
 #include "clock.h"
 #include "system.h"
 #include "system_types.h"
-#include "tmr1.h"
-#include "adc1.h"
+#include "uart1.h"
+#include "pwm.h"
 #include "interrupt_manager.h"
 #include "traps.h"
-#include "pwm.h"
+#include "sccp1_capture.h"
+#include "sccp2_capture.h"
+#include "tmr1.h"
+#include "adc1.h"
+#include "../stdbool.h"
+#include "delay.h"
+
+uint16_t Temperature1_Reporting = 0;
+uint16_t Temperature2_Reporting = 0;
+uint16_t Temperature3_Reporting = 0;
+uint16_t Temperature4_Reporting = 0;
+
+uint16_t u16TOn, u16TOff = 0;
+uint16_t u16T2On, u16T2Off = 0;
+
+bool bFlag100ms = false;
+bool bCaP1 = false;
+bool bCaP2 = false;
+bool bCap1NoneSense = false;
+uint16_t u16Cap1Count = 0;
+bool bCap2NoneSense = false;
+uint16_t u16Cap2Count = 0;
+bool bHiFault = false;
+bool bLoFault = false;
+bool bAllFault = false;
+bool bHiSideDSET = false;
+bool bLoSideDSET = false;
+bool bReset = false;
 
 void SYSTEM_Initialize(void)
 {
     PIN_MANAGER_Initialize();
     CLOCK_Initialize();
     INTERRUPT_Initialize();
+    SCCP1_CAPTURE_Initialize();
+    SCCP2_CAPTURE_Initialize();
+    UART1_Initialize();
     ADC1_Initialize();
     PWM_Initialize();
     TMR1_Initialize();
     INTERRUPT_GlobalEnable();
     SYSTEM_CORCONModeOperatingSet(CORCON_MODE_PORVALUES);
+}
+
+void LED1Control(eLED_STATE led_state)
+{
+    static uint8_t cnt = 0;
+    
+    switch (led_state)
+    {
+        case LED_OFF:
+            LED1_SetLow();
+            cnt = 0;
+            break;
+        case LED_ON:
+            LED1_SetHigh();
+            cnt = 0;
+            break;
+        case LED_BLINK:
+            if(cnt >= 5)
+            {
+                LED1_Toggle();
+                cnt = 0;
+            }
+            else
+            {
+                cnt++;
+            }
+            break;
+        default:
+            LED1_SetLow();
+            cnt = 0;
+            break;
+    }
+}
+
+void LED2Control(eLED_STATE led_state)
+{
+    static uint8_t cnt = 0;
+    
+    switch (led_state)
+    {
+        case LED_OFF:
+            LED2_SetLow();
+            cnt = 0;
+            break;
+        case LED_ON:
+            LED2_SetHigh();
+            cnt = 0;
+            break;
+        case LED_BLINK:
+            if(cnt >= 5)
+            {
+                LED2_Toggle();
+                cnt = 0;
+            }
+            else
+            {
+                cnt++;
+            }
+            break;
+        default:
+            LED2_SetLow();
+            cnt = 0;
+            break;
+    }
+}
+
+void LED3Control(eLED_STATE led_state)
+{
+    static uint8_t cnt = 0;
+    
+    switch (led_state)
+    {
+        case LED_OFF:
+            LED3_SetLow();
+            cnt = 0;
+            break;
+        case LED_ON:
+            LED3_SetHigh();
+            cnt = 0;
+            break;
+        case LED_BLINK:
+            if(cnt >= 5)
+            {
+                LED3_Toggle();
+                cnt = 0;
+            }
+            else
+            {
+                cnt++;
+            }
+            break;
+        default:
+            LED3_SetLow();
+            cnt = 0;
+            break;
+    }
 }
 
 /**

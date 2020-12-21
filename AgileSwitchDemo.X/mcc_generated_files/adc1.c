@@ -249,10 +249,12 @@ void __attribute__ ((weak)) ADC1_Tasks ( void )
 
 void __attribute__ ((weak)) ADC1_channel_AN23_CallBack( uint16_t adcVal )
 { 
-    LED2_Toggle();
+    //LED2_Toggle();
     uint16_t u16Period = 0;
     uint16_t u16Duty = 0;
     uint16_t u16DeadTime = 0;
+    
+    uint16_t u16Pwm4Duty = 0;
 
 #if 1   
     u16Period = ((__builtin_muluu(adcVal, 1250)) >> 10) + 4999;
@@ -276,7 +278,14 @@ void __attribute__ ((weak)) ADC1_channel_AN23_CallBack( uint16_t adcVal )
     PG1STATbits.UPDREQ = 1;
 #else
     PG1DC = adcVal;
-#endif    
+#endif
+    
+    // PWM4 duty update
+    //u16Pwm4Duty = ((__builtin_muluu(adcVal, 3177)) >> 10) + 1578;
+    u16Pwm4Duty = ((__builtin_muluu(adcVal, 3945)) >> 10);
+    
+    PG4DC = u16Pwm4Duty;
+    PG4STATbits.UPDREQ = 1;
 }
 
 void ADC1_Setchannel_AN23InterruptHandler(void* handler)

@@ -50,6 +50,7 @@
 #include "xc.h"
 #include "stdint.h"
 #include "system_types.h"
+#include "../stdbool.h"
 
 #ifndef SYSTEM_H
 #define	SYSTEM_H
@@ -132,6 +133,38 @@ inline static uint32_t SYSTEM_DeviceIdRegisterAddressGet(void)
     SYSTEM_Initialize(void);
  */
 void SYSTEM_Initialize(void);
+
+extern uint16_t Temperature1_Reporting;
+extern uint16_t Temperature2_Reporting;
+extern uint16_t Temperature3_Reporting;
+extern uint16_t Temperature4_Reporting;
+extern uint16_t u16TOn, u16TOff;
+extern uint16_t u16T2On, u16T2Off;
+extern bool bFlag100ms;
+extern bool bCaP1;
+extern bool bCaP2;
+extern bool bCap1NoneSense;
+extern uint16_t u16Cap1Count;
+extern bool bCap2NoneSense;
+extern uint16_t u16Cap2Count;
+extern bool bHiFault;
+extern bool bLoFault;
+extern bool bAllFault;
+extern bool bHiSideDSET;
+extern bool bLoSideDSET;
+extern bool bReset;
+
+
+typedef enum {
+	LED_OFF = 0,
+	LED_ON,
+	LED_BLINK,
+}eLED_STATE;
+
+void LED1Control(eLED_STATE led_state);
+void LED2Control(eLED_STATE led_state);
+void LED3Control(eLED_STATE led_state);
+
 #endif	/* SYSTEM_H */
 /**
  End of File

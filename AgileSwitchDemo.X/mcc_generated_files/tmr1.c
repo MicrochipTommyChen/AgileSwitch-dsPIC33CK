@@ -50,6 +50,7 @@
 #include <stdio.h>
 #include "tmr1.h"
 #include "pin_manager.h"
+#include "system.h"
 
 /**
  Section: File specific functions
@@ -161,17 +162,36 @@ uint16_t TMR1_Counter16BitGet( void )
 void __attribute__ ((weak)) TMR1_CallBack(void)
 {
     // Add your custom callback code here
-//    static int16_t cnt = 0;
-//    
-//    if(cnt < 200)
-//    {
-//        cnt++;
-//    }
-//    else
-//    {
-//        cnt = 0;
-//        LED1_Toggle();
-//    }
+    static int16_t cnt = 0;
+    
+    if(cnt < 100)
+    {
+        cnt++;
+    }
+    else
+    {
+        cnt = 0;
+        bFlag100ms = true;
+        //LED1_Toggle();
+    }
+    
+    if(u16Cap1Count >= 300 && bCap1NoneSense == false)
+    {
+        bCap1NoneSense = true;
+    }
+    else
+    {
+        u16Cap1Count++;
+    }
+
+    if(u16Cap2Count >= 300 && bCap2NoneSense == false)
+    {
+        bCap2NoneSense = true;
+    }
+    else
+    {
+        u16Cap2Count++;
+    }    
 }
 
 void  TMR1_SetInterruptHandler(void (* InterruptHandler)(void))

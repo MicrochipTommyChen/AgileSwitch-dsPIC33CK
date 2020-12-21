@@ -52,10 +52,34 @@
 */
 void INTERRUPT_Initialize (void)
 {
-    //    TI: Timer 1
+    //    CCPI: CCP2 Capture/Compare Event
     //    Priority: 1
-        IPC0bits.T1IP = 1;
+        IPC5bits.CCP2IP = 1;
+    //    CCTI: CCP2 Timer Event
+    //    Priority: 1
+        IPC6bits.CCT2IP = 1;
+    //    CCPI: CCP1 Capture/Compare Event
+    //    Priority: 1
+        IPC1bits.CCP1IP = 1;
+    //    CCTI: CCP1 Timer Event
+    //    Priority: 1
+        IPC1bits.CCT1IP = 1;
     //    ADCAN23: ADC AN23 Convert Done
     //    Priority: 1
         IPC28bits.ADCAN23IP = 1;
+    //    UEVTI: UART1 Event
+    //    Priority: 1
+        IPC47bits.U1EVTIP = 1;
+    //    UTXI: UART1 TX
+    //    Priority: 1
+        IPC3bits.U1TXIP = 1;
+    //    UEI: UART1 Error
+    //    Priority: 1
+        IPC12bits.U1EIP = 1;
+    //    URXI: UART1 RX
+    //    Priority: 1
+        IPC2bits.U1RXIP = 1;
+    //    TI: Timer 1
+    //    Priority: 1
+        IPC0bits.T1IP = 1;
 }
