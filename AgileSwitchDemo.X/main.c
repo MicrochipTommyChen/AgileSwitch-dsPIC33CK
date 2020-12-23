@@ -65,6 +65,7 @@ uint32_t u32Duty, u32Period = 0;
 uint16_t u16Dummy = 0;
 uint32_t u32Temperature = 0;
 int16_t i16Voltage = 0;
+uint16_t u16Cnt_500ms = 0;
 
 void FaultDetect(void);
 void LedIndication(void);
@@ -89,10 +90,10 @@ int main(void)
             
             FaultDetect();
             LedIndication();
+            SwitchDetect();
             PWM_DSET_TEST(bHiSideDSET, bLoSideDSET, bReset);
             
-            // temperature reporting
-            
+            // get the temperature data  
             u16Duty = u16TOn;
             u16Period = u16TOn + u16TOff;
             
@@ -116,14 +117,8 @@ int main(void)
             
             u32Temperature = __builtin_divud(__builtin_muluu(750, u16Duty), u16Period);
             u32Temperature = (u32Temperature + 25) >> 2;
-
-            temp3D = u32Temperature / 100;
-            temp2D = (u32Temperature % 100) / 10;
-            temp1D = u32Temperature % 10;
-            printf("Temperature : %d%d%d degree C \n", temp3D, temp2D, temp1D);
             
-            // Voltage reporting
-            
+            // get the voltage data
             u16Duty = u16T2On;
             u16Period = u16T2On + u16T2Off;
             
@@ -151,11 +146,41 @@ int main(void)
             if(i16Voltage < 0)
                 i16Voltage = 0;
             
-            temp4D = i16Voltage / 1000;
-            temp3D = (i16Voltage % 1000) / 100;
-            temp2D = (i16Voltage % 100) / 10;
-            temp1D = i16Voltage % 10;
-            printf("Voltage : %d%d%d%d V \n",temp4D, temp3D, temp2D, temp1D);
+            if(u16Cnt_500ms < 5)
+            {
+                u16Cnt_500ms++;
+            }
+            else
+            {
+                u16Cnt_500ms = 0;
+
+                // data & status reporting
+                temp3D = u32Temperature / 100;
+                temp2D = (u32Temperature % 100) / 10;
+                temp1D = u32Temperature % 10;
+                printf("Temperature : %d%d%d degree C \n", temp3D, temp2D, temp1D);
+
+                temp4D = i16Voltage / 1000;
+                temp3D = (i16Voltage % 1000) / 100;
+                temp2D = (i16Voltage % 100) / 10;
+                temp1D = i16Voltage % 10;
+                printf("Voltage : %d%d%d%d V \n",temp4D, temp3D, temp2D, temp1D);
+
+                if(bHiFault == true)
+                {
+                    printf("====== HI-FAULT !!! ====== \n");
+                }
+                if(bLoFault == true)
+                {
+                    printf("====== LO-FAULT !!! ====== \n");
+                }
+                if(bAllFault == true)
+                {
+                    printf("====== ALL-FAULT !!! ====== \n");
+                }
+                
+            }
+                    
             
         }
     }
@@ -197,7 +222,7 @@ void LedIndication(void)
     if(bHiFault == true)
     {
         LED1Control(LED_BLINK);
-        printf("====== HI-FAULT !!! ====== \n");
+//        printf("====== HI-FAULT !!! ====== \n");
     }
     else
     {
@@ -207,7 +232,7 @@ void LedIndication(void)
     if(bLoFault == true)
     {
         LED2Control(LED_BLINK);
-        printf("====== LO-FAULT !!! ====== \n");
+//        printf("====== LO-FAULT !!! ====== \n");
     }
     else
     {
@@ -217,7 +242,7 @@ void LedIndication(void)
     if(bAllFault == true)
     {
         LED3Control(LED_BLINK);
-        printf("====== ALL-FAULT !!! ====== \n");
+//        printf("====== ALL-FAULT !!! ====== \n");
     }
     else
     {
