@@ -64,9 +64,6 @@ void INTERRUPT_Initialize (void)
     //    CCTI: CCP1 Timer Event
     //    Priority: 1
         IPC1bits.CCT1IP = 1;
-    //    ADCAN23: ADC AN23 Convert Done
-    //    Priority: 1
-        IPC28bits.ADCAN23IP = 1;
     //    UEVTI: UART1 Event
     //    Priority: 1
         IPC47bits.U1EVTIP = 1;

@@ -348,6 +348,152 @@
 #define LO_DSET_SetDigitalOutput() (_TRISD7 = 0)
 /**
   @Summary
+    Sets the GPIO pin, RD8, high using LATD8.
+
+  @Description
+    Sets the GPIO pin, RD8, high using LATD8.
+
+  @Preconditions
+    The RD8 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Set RD8 high (1)
+    RESET_OUTPUT_SetHigh();
+    </code>
+
+*/
+#define RESET_OUTPUT_SetHigh()          (_LATD8 = 1)
+/**
+  @Summary
+    Sets the GPIO pin, RD8, low using LATD8.
+
+  @Description
+    Sets the GPIO pin, RD8, low using LATD8.
+
+  @Preconditions
+    The RD8 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Set RD8 low (0)
+    RESET_OUTPUT_SetLow();
+    </code>
+
+*/
+#define RESET_OUTPUT_SetLow()           (_LATD8 = 0)
+/**
+  @Summary
+    Toggles the GPIO pin, RD8, using LATD8.
+
+  @Description
+    Toggles the GPIO pin, RD8, using LATD8.
+
+  @Preconditions
+    The RD8 must be set to an output.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Toggle RD8
+    RESET_OUTPUT_Toggle();
+    </code>
+
+*/
+#define RESET_OUTPUT_Toggle()           (_LATD8 ^= 1)
+/**
+  @Summary
+    Reads the value of the GPIO pin, RD8.
+
+  @Description
+    Reads the value of the GPIO pin, RD8.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    uint16_t portValue;
+
+    // Read RD8
+    postValue = RESET_OUTPUT_GetValue();
+    </code>
+
+*/
+#define RESET_OUTPUT_GetValue()         _RD8
+/**
+  @Summary
+    Configures the GPIO pin, RD8, as an input.
+
+  @Description
+    Configures the GPIO pin, RD8, as an input.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Sets the RD8 as an input
+    RESET_OUTPUT_SetDigitalInput();
+    </code>
+
+*/
+#define RESET_OUTPUT_SetDigitalInput()  (_TRISD8 = 1)
+/**
+  @Summary
+    Configures the GPIO pin, RD8, as an output.
+
+  @Description
+    Configures the GPIO pin, RD8, as an output.
+
+  @Preconditions
+    None.
+
+  @Returns
+    None.
+
+  @Param
+    None.
+
+  @Example
+    <code>
+    // Sets the RD8 as an output
+    RESET_OUTPUT_SetDigitalOutput();
+    </code>
+
+*/
+#define RESET_OUTPUT_SetDigitalOutput() (_TRISD8 = 0)
+/**
+  @Summary
     Sets the GPIO pin, RE10, high using LATE10.
 
   @Description
