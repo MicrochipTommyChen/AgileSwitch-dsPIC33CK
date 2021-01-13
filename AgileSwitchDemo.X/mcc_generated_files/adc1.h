@@ -767,30 +767,6 @@ void ADC1_channel_AN23_CallBack(uint16_t adcVal);
 */
 void ADC1_Setchannel_AN23InterruptHandler(void* handler);
 
-/**
-  @Summary
-    Polled implementation
-
-  @Description
-    This routine is used to implement the tasks for ADC1 channel_AN23 polled implementations.
-  
-  @Preconditions
-    ADC1_Initialize() function should have been 
-    called before calling this function.
- 
-  @Param
-    None
-
-  @Returns 
-    None
- 
-  @Example
-    <code>    
-        ADC1_channel_AN23_Tasks();
-    </code>
-*/
-void ADC1_channel_AN23_Tasks(void);
-
 
 
 

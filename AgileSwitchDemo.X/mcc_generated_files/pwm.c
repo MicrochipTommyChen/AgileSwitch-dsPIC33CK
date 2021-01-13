@@ -121,8 +121,8 @@ void PWM_Initialize (void)
     PG2IOCONH = 0x0C;
     // PENL enabled; DTCMPSEL PCI Sync Logic; PMOD Complementary; POLL Active-high; PENH enabled; CAPSRC Software; POLH Active-high; 
     PG4IOCONH = 0x0C;
-    // UPDTRG Manual; ADTR1PS 1:1; PGTRGSEL EOC event; ADTR1EN3 disabled; ADTR1EN1 disabled; ADTR1EN2 disabled; 
-    PG1EVTL = 0x00;
+    // UPDTRG Manual; ADTR1PS 1:1; PGTRGSEL Trigger A compare event; ADTR1EN3 disabled; ADTR1EN1 enabled; ADTR1EN2 disabled; 
+    PG1EVTL = 0x101;
     // UPDTRG Duty Cycle; ADTR1PS 1:1; PGTRGSEL Trigger A compare event; ADTR1EN3 disabled; ADTR1EN1 enabled; ADTR1EN2 disabled; 
     PG2EVTL = 0x109;
     // UPDTRG Duty Cycle; ADTR1PS 1:1; PGTRGSEL EOC event; ADTR1EN3 disabled; ADTR1EN1 disabled; ADTR1EN2 disabled; 
@@ -218,7 +218,7 @@ void PWM_Initialize (void)
     // PER 15872; 
     PG4PER = 0x3E00;
     // TRIGA 0; 
-    PG1TRIGA = 0x00;
+    PG1TRIGA = 600;
     // TRIGA 0; 
     PG2TRIGA = 0x00;
     // TRIGA 0; 

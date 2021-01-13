@@ -48,6 +48,7 @@
 
 #include "adc1.h"
 #include "pin_manager.h"
+#include "system.h"
 
 /**
  Section: File specific functions
@@ -195,8 +196,8 @@ void ADC1_Initialize (void)
     ADTRIG4H = 0x00;
     //TRGSRC20 None; TRGSRC21 None; 
     ADTRIG5L = 0x00;
-    //TRGSRC22 None; TRGSRC23 PWM2 Trigger1; 
-    ADTRIG5H = 0x600;
+    //TRGSRC22 None; TRGSRC23 PWM1 Trigger1; 
+    ADTRIG5H = 0x400;
     //TRGSRC24 None; TRGSRC25 None; 
     ADTRIG6L = 0x00;
 }
@@ -250,11 +251,16 @@ void __attribute__ ((weak)) ADC1_Tasks ( void )
 void __attribute__ ((weak)) ADC1_channel_AN23_CallBack( uint16_t adcVal )
 { 
     //LED2_Toggle();
+    DEBUG_PIN_1_SetHigh();
+    
     uint16_t u16Period = 0;
     uint16_t u16Duty = 0;
     uint16_t u16DeadTime = 0;
     
     uint16_t u16Pwm4Duty = 0;
+    
+    static uint16_t u16HiCnt = 0;
+    static uint16_t u16LoCnt = 0;
 
 #if 1   
     u16Period = ((__builtin_muluu(adcVal, 1250)) >> 10) + 4999;
@@ -275,6 +281,45 @@ void __attribute__ ((weak)) ADC1_channel_AN23_CallBack( uint16_t adcVal )
     PG1DC = u16Duty;
     PG1DTL = u16DeadTime;
     PG1DTH = u16DeadTime;
+    //PG1STATbits.UPDREQ = 1;
+    
+    /**/
+    if(bHiSideDSET == true && bLoSideDSET == false)
+    {
+        PG1TRIGA = 600;
+        u16LoCnt = 0;
+        if(u16HiCnt > 10)
+        {
+            HI_DSET_SetLow();
+        }
+        else
+        {
+            u16HiCnt++;
+        }
+    }
+    else
+    {
+        HI_DSET_SetHigh();
+    }
+    
+    if(bHiSideDSET == false && bLoSideDSET == true)
+    {
+        PG1TRIGA = u16Duty + 600;
+        u16HiCnt = 0;
+        if(u16LoCnt > 10)
+        {
+            LO_DSET_SetLow();
+        }
+        else
+        {
+            u16LoCnt++;
+        }
+    }
+    else
+    {
+        LO_DSET_SetHigh();
+    }    
+    /**/
     PG1STATbits.UPDREQ = 1;
 #else
     PG1DC = adcVal;
@@ -286,6 +331,8 @@ void __attribute__ ((weak)) ADC1_channel_AN23_CallBack( uint16_t adcVal )
     
     PG4DC = u16Pwm4Duty;
     PG4STATbits.UPDREQ = 1;
+    
+    DEBUG_PIN_1_SetLow();
 }
 
 void ADC1_Setchannel_AN23InterruptHandler(void* handler)

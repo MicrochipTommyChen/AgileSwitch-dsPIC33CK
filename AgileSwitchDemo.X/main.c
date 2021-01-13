@@ -91,7 +91,7 @@ int main(void)
             FaultDetect();
             LedIndication();
             SwitchDetect();
-            PWM_DSET_TEST(bHiSideDSET, bLoSideDSET, bReset);
+//            PWM_DSET_TEST(bHiSideDSET, bLoSideDSET, bReset);
             
             // get the temperature data  
             u16Duty = u16TOn;
@@ -189,7 +189,7 @@ int main(void)
 
 void FaultDetect(void)
 {
-    if( HI_FAULT_GetValue() == 1 )
+    if( HI_FAULT_GetValue() == 0 )
     {
         bHiFault = true;
     }
@@ -198,7 +198,7 @@ void FaultDetect(void)
         bHiFault = false;
     }
     
-    if( LO_FAULT_GetValue() == 1 )
+    if( LO_FAULT_GetValue() == 0 )
     {
         bLoFault = true;
     }
@@ -207,7 +207,7 @@ void FaultDetect(void)
         bLoFault = false;
     }
 
-    if( ALL_FAULT_GetValue() == 1 )
+    if( ALL_FAULT_GetValue() == 0 )
     {
         bAllFault = true;
     }
@@ -330,73 +330,74 @@ void SwitchDetect(void)
 
 void PWM_DSET_TEST(bool flag1, bool flag2, bool flag3)
 {
-    static uint8_t cnt1, cnt2, cnt3 = 0;
+//    static uint8_t cnt1, cnt2, cnt3 = 0;
     
-    if(flag1 == true)
-    {
-        if(cnt1 > 10)
-        {
-            //PG1IOCONLbits.OVRENH = 0;
-            HI_DSET_SetHigh();
-        }
-        else
-        {
-            cnt1++;
-            HI_DSET_SetLow();
-            //PG1IOCONLbits.OVRENH = 1;
-            //PG1IOCONLbits.OVRENL = 1;
-        }
-    }
-    else
-    {
-        cnt1 = 0;
-        HI_DSET_SetHigh();
-    }
-    
-    if(flag2 == true)
-    {
-        if(cnt2 > 10)
-        {
-            //PG1IOCONLbits.OVRENL = 0;
-            LO_DSET_SetHigh();
-        }
-        else
-        {
-            cnt2++;
-            LO_DSET_SetLow();
-            //PG1IOCONLbits.OVRENH = 1;
-            //PG1IOCONLbits.OVRENL = 1;
-        }
-    }
-    else
-    {
-        cnt2 = 0;
-        LO_DSET_SetHigh();
-    }
-
-    if(flag3 == true)
-    {
-        if(cnt3 > 3)
-        {
-            //PG1IOCONLbits.OVRENH = 0;
-            //PG1IOCONLbits.OVRENL = 0;
+//    if(flag1 == true)
+//    {
+//        if(cnt1 > 10)
+//        {
+//            //PG1IOCONLbits.OVRENH = 0;
 //            HI_DSET_SetHigh();
-//            LO_DSET_SetHigh();
-//            RESET_OUTPUT_SetHigh();             
-        }
-        else
-        {
-            cnt3++;
+//        }
+//        else
+//        {
+//            cnt1++;
 //            HI_DSET_SetLow();
+//            //PG1IOCONLbits.OVRENH = 1;
+//            //PG1IOCONLbits.OVRENL = 1;
+//        }
+//    }
+//    else
+//    {
+//        cnt1 = 0;
+//        HI_DSET_SetHigh();
+//    }
+    
+//    if(flag2 == true)
+//    {
+//        if(cnt2 > 10)
+//        {
+//            //PG1IOCONLbits.OVRENL = 0;
+//            LO_DSET_SetHigh();
+//        }
+//        else
+//        {
+//            cnt2++;
 //            LO_DSET_SetLow();
-//            RESET_OUTPUT_SetLow();            
-        }        
-    }
-    else
-    {
-        cnt3 = 0;
-    }
+//            //PG1IOCONLbits.OVRENH = 1;
+//            //PG1IOCONLbits.OVRENL = 1;
+//        }
+//    }
+//    else
+//    {
+//        cnt2 = 0;
+//        LO_DSET_SetHigh();
+//    }
+
+//    if(flag3 == true)
+//    {
+//        if(cnt3 > 3)
+//        {
+//            //PG1IOCONLbits.OVRENH = 0;
+//            //PG1IOCONLbits.OVRENL = 0;
+////            HI_DSET_SetHigh();
+////            LO_DSET_SetHigh();
+////            RESET_OUTPUT_SetHigh();             
+//        }
+//        else
+//        {
+//            cnt3++;
+////            HI_DSET_SetLow();
+////            LO_DSET_SetLow();
+////            RESET_OUTPUT_SetLow();            
+//        }        
+//    }
+//    else
+//    {
+//        cnt3 = 0;
+//    }
 }
+
 /**
  End of File
 */
